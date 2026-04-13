@@ -23,4 +23,9 @@ jobs:
           echo "TAG=${GITHUB_REF##*/}" >> $GITHUB_ENV
 
       - name: Build Docker image
-        run: docker build -t tag-docker-project:${TAG} -t tag-docker-project:latest .
+        run: |
+          docker build -t tag-docker-project:${TAG} -t tag-docker-project:latest .
+
+      - name: Show built images
+        run: |
+          docker images | grep tag-docker-project
