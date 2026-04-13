@@ -1,0 +1,4 @@
+<<'EOF'
+__pycache__/
+*.pyc
+EOF
