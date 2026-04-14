@@ -7,7 +7,7 @@ on:
 
 jobs:
   call-central:
-    uses: ./.github/workflows/central-docker-build.yml
+    uses: ./.github/workflows/resuable.yml
     with:
       image_name: tag-docker-project
     
