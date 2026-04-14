@@ -21,7 +21,7 @@ jobs:
 
       - name: Extract tag name
         run: |
-        echo "TAG=${GITHUB_REF##*/}" >> $GITHUB_ENV
+        echo "TAG=${{ github.ref_name }}" >> $GITHUB_ENV
 
       - name: Show tag
         run: |
