@@ -33,7 +33,8 @@ jobs:
           docker build \
             -t ${{ inputs.image_name }}:$TAG \
             -t ${{ inputs.image_name }}:latest \
+            .
       - name: Show built images
         run: |
           docker images | grep "${{ inputs.image_name }}"
-            .
+            
