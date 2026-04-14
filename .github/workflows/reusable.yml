@@ -17,21 +17,20 @@ jobs:
 
       - name: Show pushed ref
         run: |
-        echo "Git ref is: $GITHUB_REF"
+          echo "Git ref is: $GITHUB_REF"
 
       - name: Extract tag name
         run: |
-        echo "TAG=${{ github.ref_name }}" >> $GITHUB_ENV
+          TAG=${{ github.ref_name }}
+          echo "TAG=$TAG" >> $GITHUB_ENV
 
       - name: Show tag
         run: |
-        echo "Tag is $TAG"
+          echo "Tag is $TAG"
 
       - name: Build Docker image
         run: |
           docker build \
-            -t ${{ inputs.image_name }}:${TAG} \
+            -t ${{ inputs.image_name }}:$TAG \
             -t ${{ inputs.image_name }}:latest \
             .
-
-
