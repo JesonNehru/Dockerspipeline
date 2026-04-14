@@ -1,0 +1,45 @@
+name: Central Docker Build and Push
+
+on:
+  workflow_call:
+    inputs:
+      image_name:
+        required: true
+        type: string
+    secrets:
+      DOCKERHUB_USERNAME:
+        required: true
+      DOCKERHUB_TOKEN:
+        required: true
+
+jobs:
+  docker-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Show pushed ref
+        run: echo "Git ref is: $GITHUB_REF"
+
+      - name: Extract tag name
+        run: echo "TAG=${GITHUB_REF##*/}" >> $GITHUB_ENV
+
+      - name: Show tag
+        run: echo "Tag is $TAG"
+
+      - name: Build Docker image
+        run: |
+          docker build \
+            -t ${{ inputs.image_name }}:${TAG} \
+            -t ${{ inputs.image_name }}:latest \
+            .
+
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Push Docker images
+        run: |
+          docker push ${{ inputs.image_name }}:${TAG}
+          docker push ${{ inputs.image_name }}:latest
